@@ -3,10 +3,11 @@
 import { useMemo, useRef, useState } from 'react';
 import useSWRImmutable from 'swr/immutable';
 import Select from 'react-select';
+
 import { NaVoiceInfo } from './api/NamaeneAzure';
 
 
-export default function Client() {
+export default function NaForm() {
     const audioRef = useRef<HTMLAudioElement>(null);
 
     const [ipa, setIpa] = useState(() => getUrlState().ipa || "ˈraɪzli");

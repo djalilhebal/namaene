@@ -240,6 +240,7 @@ We need to implement our own quota tracker.
 Calculating the cost of each call differs from provider to provider, and even from service to service.
 
 **Tags**: Some SSML elements (e.g. `speak` and `mark`) are omitted.
+
 **Whitespace** is usually counted.
 
 But what about the **characters**?
@@ -325,25 +326,28 @@ function getCurrentCountKey() {
 ```
 
 `INCRBY counter:2023-12 500` increments the counter by 500 and then returns the new value.
-Next month, the counter key will automatically change to `counter:2024-11` and will be set to 0 before incrementing.
+Next month, the counter key will automatically change to `counter:2024-01`. `INCRBY` will not find this key, so it will be set to 0 before incrementing.
 
-Having decided on this ~~lazy~~ practical approach, you can think of it as an opportunity to implement another important feature: Maintaining a historical record of monthly usage/counts.
+Having decided on this ~~lazy~~ practical approach, we can think of it as an opportunity to implement another important feature: Maintaining a historical record of monthly usage/counts.
 
 To get a list of all counter keys (then iterate over them):
 ```
 KEYS counter:*
 ```
+
 A better approach might be to use hash commands: [`HINCRBY`](https://redis.io/commands/hincrby/) and [`HGETALL`](https://redis.io/commands/hgetall/).
-Not of high priority.
+This is not of high priority.
 
 ### Deploying
 
-Having already tried Netlify (in 2020) and Vercel (recently), I decided to use Vercel mostly because I liked their website's design—
+Having already tried Netlify (in 2020) and Vercel (recently), I decided to use Vercel mostly because I like their website's design—
 
 I mean the UX and DX (docs, APIs, and all). Plus, they provide or are behind some of the technologies we ~~wanted to~~ use:
 - Serverless Redis
 - Serverless functions (e.g. the `/api/speak` handler)
-- Next.js
+- Next.js (it uses [Fetch API-based classes][next-functions])
+
+[next-functions]: https://nextjs.org/docs/pages/api-reference/functions/next-server "Functions: NextRequest and NextResponse | Next.js"
 
 This is a rough sketch of what we ended up with:
 

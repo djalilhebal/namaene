@@ -1,4 +1,4 @@
-import Client from './Client';
+import NaForm from './NaForm';
 
 export default async function Home() {
   return (
@@ -13,19 +13,28 @@ export default async function Home() {
       </header>
 
       <div className='max-w-xl m-auto'>
-        <Client />
+        <NaForm />
       </div>
 
       <footer className='text-small'>
-        By Abdeldjalil Hebal.
-        {" "}
+        Abdeldjalil Hebal
+        {" | "}
         <a
           href="https://github.com/djalilhebal/namaene"
           target="_blank"
           rel="noopener noreferrer"
           className="underline"
         >
-          Learn more on GitHub.
+          GitHub
+        </a>
+        {" | "}
+        <a
+          href="https://dev.to/djalilhebal/pronouncing-names-and-stuff-using-tts-5a81"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline"
+        >
+          DEV
         </a>
       </footer>
     </main>

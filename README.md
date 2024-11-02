@@ -33,6 +33,8 @@ See `Ramblings.md`.
 
 ## Getting Started
 
+Assuming Azure Speech service's environment variables (`SPEECH_REGION` and `SPEECH_KEY`) defined...
+
 Running the development server:
 
 ```sh
@@ -64,12 +66,15 @@ GET /speak?voice={voice}&ipa={ipa}
     Content-Type: audio/ogg
     Cache-Control: public, immutable, max-age=31536000
     ETag: strong hash of the request params (IPA and voice)
+    Codes: 200, 400
 
 GET /voices
-    returns Array<{name, locale, ipaSymbols: null or string[]}>
+    returns Array<{name, locale, ipaSymbols: null | string[]}>
+    Codes: 200
 
 GET /status
     returns {currentCount: number}
+    Codes: 200
 ```
 
 
@@ -89,10 +94,11 @@ GET /status
     * [x] Testing locally - remote Redis https://vercel.com/docs/storage/vercel-kv/quickstart
     * [ ] Testing locally - local Redis https://github.com/vercel/storage/issues/281
 
-- [x] **SWR** because why not.
-    + https://github.com/vercel/swr
-    + https://swr.vercel.app/docs/conditional-fetching
-    + We don't need to use conditional fetches.
+- [x] **SWR**
+    * Why need it? Because why the fuck not.
+    * https://github.com/vercel/swr
+    * https://swr.vercel.app/docs/conditional-fetching
+    * We don't need to use conditional fetches.
       Plain `fetch` (the browser actually) should respect cache directives.
 
 - [x] Custom select component.
@@ -202,7 +208,7 @@ Consider using some standalone TTS engine.
 
 ## Design
 
-### Constaints
+### Constraints
 
 - Limited quota. We want to optimize and cache whenever possible.
 
@@ -220,9 +226,10 @@ Meaning, we should not Google Cloud's [Apigee][google-apigee] (non-free) or Bill
 
 - The client respects cache control directives.
     * Not required, but nice.
-    * Browsers respect them (unless overriden). `curl` and `ffplay` do not.
+    * Browsers respect them (unless overriden).
+    * Other clients like `curl` and `ffplay` do not.
 
-### How it works
+### How it should work
 
 Fail fast.
 
@@ -241,14 +248,13 @@ Also, include whatever headers that tell the client to cache it forever.
 
 ![System arch overview](docs/namaene-arch.png)
 
-
 ### Handling quota
 
 Using Redis.
 
 **What to count**
 - Google says `<mark>` are stripped, but that doesn't matter. We don't care since we are only using a single `<phoneme>` tag.
-- We can just `TextEncoder` and count bytes. Again, better be safe than sorry.
+- We can just use `TextEncoder` and count bytes. Again, better be safe than sorry.
 
 > **Note:**
 > For WaveNet and Standard voices, the number of characters will be equal to or less than the number of bytes represented by the text. This includes alphanumeric characters, punctuation, and white spaces. Some character sets use more than one byte for a character. For example, Japanese (ja-JP) characters in UTF-8 typically require more than one byte each. In this case, you are only charged for one character, not multiple bytes.
@@ -324,8 +330,11 @@ We are doing something similar to this:
 ## Related projects
 
 - **IPA Reader** by Katie
+
     * http://ipa-reader.xyz/
-    * https://cuttlesoft.com/blog/2018/09/13/pronouncing-things-with-amazons-polly/
+
+    * [Pronouncing Things with Amazon's Polly - Cuttlesoft, Custom Software Developers](https://cuttlesoft.com/blog/2018/09/13/pronouncing-things-with-amazons-polly/)
+
     * https://gist.github.com/katie7r/f6e51f345e4c46738514cdeba31fb167
     
     * Notes:
@@ -345,17 +354,24 @@ We are doing something similar to this:
     * "A browser-based tool to convert International Phonetic Alpha (IPA) phonetic notation to speech using the meSpeak.js package"
 
     * https://itinerarium.github.io/phoneme-synthesis/
+
         + "The IPA phonetic notation is translated into phonemes understood by eSpeak using correspondences and logic found in lexconvert. The translated phonemes (e.g., `[[mUm'baI]]` for `/mʊmˈbaɪ/`) are then provided to meSpeak.js, a revised Emscripten'd version of eSpeak for output."
+
         + [ ] KAITO: Doesn't eSpeak support IPA?
 
     * [ ] RECHECK: Feedback wanted: convert phonetic notation text to speech : linguistics
     https://www.reddit.com/r/linguistics/comments/5lwuc7/
 
 - **IPA to Speech** (IPA Reader) by Anton Vasetenkov
+
     * https://www.antvaset.com/ipa-to-speech
+
     * 2023-12-11 Visited.
+
     * Not open source, uses React I guess.
+
     * "The tool uses the Google Cloud Text-to-Speech API, Amazon Polly, and Microsoft Azure Azure Cognitive Services Speech Service to generate the speech audio from the phonetic input."
+
     * Liked the intro.
 
 
@@ -367,7 +383,9 @@ Interactive chart with audio recordings.
 
 ## Credits
 
-* Developed with [Next.js](https://nextjs.org/), bootstrapped with `create-next-app`.
+- Developed with [Next.js](https://nextjs.org/), bootstrapped with `create-next-app`.
+
+- [**Speech** by Deivid Sáenz from Noun Project (CC BY 3.0)](https://thenounproject.com/icon/speech-82581/)
 
 
 ## License
