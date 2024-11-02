@@ -11,6 +11,7 @@
   "dependencies": {
     "@vercel/analytics": "^1.1.1",
     "@vercel/kv": "^1.0.0",
+    "lucide-react": "^0.454.0",
     "microsoft-cognitiveservices-speech-sdk": "^1.33.1",
     "next": "^14.2.16",
     "react": "^18",

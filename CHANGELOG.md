@@ -3,9 +3,11 @@
 
 ## 0.0.3 (WIP)
 
-- [x] Counter: Refactor to use a hash map
+- [x] Counter: Refactor to use a hash map.
 
-- [x] Counter: Chart (Vega-Lite)
+- [x] Counter: Chart (Vega-Lite).
+
+- [x] Updated the UI.
 
 
 ## 0.0.2 (2024-11-02)
