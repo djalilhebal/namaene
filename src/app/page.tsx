@@ -34,7 +34,7 @@ export default async function Home() {
           rel="noopener noreferrer"
           className="underline"
         >
-          DEV
+          DEV post
         </a>
       </footer>
     </main>

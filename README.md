@@ -1,4 +1,5 @@
 # Namaene
+
 Namaene: IPA vocalizer. Pronouncing names and stuff.
 
 A web app that helps you tell the world how to pronounce your name or whatever.
@@ -22,12 +23,6 @@ Functionalities or possible improvements.
 
 - [x] **Analytics** (Vercel's).
 
-- [ ] UX: Selecting the voice using a hierarchical dropdown (lang > locale > voice).
-
-- [ ] UX: Warning the user if a character is not supported in the selected language.  
-AFAIK, this information is not available from the SDK itself, but both Google Cloud and Azure have pages that list supported phonemes, stress levels, etc.  
-See `Ramblings.md`.
-
 
 ## Usage
 
@@ -46,7 +41,7 @@ npm run dev
 curl -v http://localhost:3000/api/voices
 
 # Before speaking (counter)
-curl -v http://localhost:3000/api/status
+curl -v http://localhost:3000/api/counter
 
 # Speaking
 ffplay "http://localhost:3000/api/speak?voice=en-US-JennyNeural&ipa=ˈraɪzli"
@@ -55,7 +50,7 @@ ffplay "http://localhost:3000/api/speak?voice=en-US-JennyNeural&ipa=ˈraɪzli"
 ffplay "http://localhost:3000/api/speak?voice=ar-DZ-IsmaelNeural&ipa=ʕaq.rab"
 
 # After speaking (counter)
-curl -v http://localhost:3000/api/status
+curl -v http://localhost:3000/api/counter
 ```
 
 ### REST API
@@ -72,9 +67,12 @@ GET /voices
     returns Array<{name, locale, ipaSymbols: null | string[]}>
     Codes: 200
 
-GET /status
+GET /counter
     returns {currentCount: number}
     Codes: 200
+
+GET /counter-history
+    returns Array<{[YearMonth]: counterAsString}>
 ```
 
 
@@ -82,7 +80,7 @@ GET /status
 
 - [x] Microsoft Azure - Speech service (TTS)
 
-- [x] NextJS
+- [x] NextJS 14
 
 - [x] Tailwind CSS
     * Because why the hell not. Everyone seems to be using and liking it.
@@ -320,11 +318,11 @@ We are doing something similar to this:
 
 ## Details
 
-- [`Ramblings`](./Ramblings.md)
+- [Ramblings](./Ramblings.md)
 
-- [About **Azure** TTS](docs/azure.md)
+- [About **Azure TTS**](docs/azure.md)
 
-- [About **Google Cloud** TTS](docs/google-cloud.md)
+- [About **Google Cloud TTS**](docs/google-cloud.md)
 
 
 ## Related projects
@@ -343,6 +341,7 @@ We are doing something similar to this:
         - They pay for it.
 
     * Others:
+    
         + [Excellent IPA reader website I found: : r/conlangs](https://www.reddit.com/r/conlangs/comments/jbk7o4/excellent_ipa_reader_website_i_found/)
 
         + About IPA-Reader.xyz, phoneme-synthesis, and Pink Trombone

@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
 
 import NamaeneAzure from '../NamaeneAzure';
-import { getNewCountWith } from '../quota';
+import { getNewCountWith } from '../counter';
 
 const HTTP_BAD_REQUEST = 400;
 const HTTP_NOT_MODIFIED = 304;

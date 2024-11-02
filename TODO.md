@@ -1,6 +1,14 @@
 # TODO
 
-- [ ] Create OP image
+- [ ] UX: Selecting the voice using a hierarchical dropdown (lang > locale > voice).
+
+- [ ] UX: Warning the user if a character is not supported in the selected language.  
+AFAIK, this information is not available from the SDK itself, but both Google Cloud and Azure have pages that list supported phonemes, stress levels, etc.  
+See `Ramblings.md`.
+
+- [ ] Added cron job to ensure Vercel KV database is not deleted after 30 days on inactivity.
+
+- [ ] Add dynamic OG image
 
     * https://og-playground.vercel.app/
 
