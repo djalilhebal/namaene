@@ -43,9 +43,9 @@ const Chart = ({ data }: { data: any[] }) => {
         { "field": "count", "type": "quantitative", "title": "count" }
       ]
     }
-  }
-    ;
+  };
 
+  //@ts-ignore
   return <VegaLite spec={spec} />;
 };
 
