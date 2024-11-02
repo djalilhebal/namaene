@@ -12,11 +12,19 @@ interface NaVoiceInfo {
   localePretty?: string;
 }
 
-export default function Home() {
+export default function Home({ searchParams }: { searchParams: any }) {
   const [buttonState, setButtonState] = useState<'ready' | 'loading' | 'playing'>('ready');
   const [ipa, setIpa] = useState(() => getUrlState().ipa || "ˈraɪzli");
   const [voice, setVoice] = useState('en-US-JennyNeural');
   const audioRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    const customIpa = searchParams.ipa;
+    if (customIpa) {
+      const customImagePath = `/api/og?ipa=${encodeURIComponent(customIpa)}`;
+      document.querySelector('meta[property="og:image"]')?.setAttribute('content', customImagePath);
+    }
+  }, []);
 
   useEffect(() => {
     setVoice(getUrlState().voice || 'en-US-JennyNeural');
