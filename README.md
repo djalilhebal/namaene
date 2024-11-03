@@ -4,6 +4,10 @@ Namaene: IPA vocalizer. Pronouncing names and stuff.
 
 A web app that helps you tell the world how to pronounce your name or whatever.
 
+| ![](./docs/screenshot-0.0.2.png) | ![](./docs/screenshot-0.0.2-counter-history.png) |
+|:--------------------------------:|:------------------------------------------------:|
+| Main page                        | Counter history
+
 
 ## Features
 

@@ -1,11 +1,11 @@
-import { NextResponse } from 'next/server';
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 import NamaeneAzure from '../NamaeneAzure';
 import { getNewCountWith } from '../counter';
 
 const HTTP_BAD_REQUEST = 400;
 const HTTP_NOT_MODIFIED = 304;
+const HTTP_INTERNAL_SERVER_ERROR = 500;
 const HTTP_SERVICE_UNAVAILABLE = 503;
 
 export async function GET(request: NextRequest) {
@@ -21,31 +21,29 @@ export async function GET(request: NextRequest) {
     return new NextResponse(null, { status: HTTP_BAD_REQUEST });
   }
 
-  // - [ ] Generate ETag
-  // hash(apiVersion + voice + ipa)
-
   // Check quota
-  // We could do something like "double-checked locking" so we only increment the counter if we aren't above the max.
-  // Pro: The counter stops at the last "exceeding" request. Maybe prevents integer overflows? No.
-  // Con: That means making an additional call to Redis each time.
-  //const usedCharacters = await getCurrentCount();
   const speakCost = NamaeneAzure.countCharacters(options);
   const usedCharacters = await getNewCountWith(speakCost);
   if (usedCharacters > NamaeneAzure.MAX_CHARACTERS_PER_MONTH) {
     return new NextResponse(null, { status: HTTP_SERVICE_UNAVAILABLE });
   }
 
-  const data = await NamaeneAzure.speak(options);
-  const contentType = NamaeneAzure.mimeType;
+  try {
+    const data = await NamaeneAzure.speak(options);
+    const contentType = NamaeneAzure.mimeType;
 
-  return new NextResponse(data, {
-    headers: {
-      'Content-Type': contentType,
-      // 1 year
-      'Cache-Control': 'public, max-age=31536000, immutable',
-    },
-    status: 200,
-  });
+    return new NextResponse(data, {
+      headers: {
+        'Content-Type': contentType,
+        // 1 year
+        'Cache-Control': 'public, max-age=31536000, immutable',
+      },
+      status: 200,
+    });
+  } catch (error) {
+    console.error(error);
+    return new NextResponse(null, { status: HTTP_INTERNAL_SERVER_ERROR });
+  }
 
 }
 
